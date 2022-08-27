@@ -63,7 +63,7 @@ class Vector2D:
         return f"{self.x:.1f} {self.y:.1f}"
 
     def distance(self, other: Vector2D) -> float:
-        return abs(self.x - other.x) + abs(self.y - other.y)
+        return math.sqrt((self.x - other.x) ** 2 + (self.y - other.y) ** 2)
 
     @property
     def length(self):

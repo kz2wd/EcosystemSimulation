@@ -1,10 +1,16 @@
 from __future__ import annotations
 
 import random
+from enum import Enum
 
 from simulation.collision_box import CollisionBox
 from simulation.colors import Color, get_winning_color
 from maths.vector2d import Vector2D
+
+
+class AgentStates(Enum):
+    DEAD = 0
+    ALIVE = 1
 
 
 class Agent:
@@ -13,6 +19,8 @@ class Agent:
         self.movement: Vector2D = Vector2D(random.random(), random.random())  # init with random movement vector
         self.color: Color = color
         self.collision_box = CollisionBox(coordinates, radius)
+        self.state = AgentStates.ALIVE
+        self.speed = 1
 
     @property
     def coordinates(self):
@@ -23,7 +31,7 @@ class Agent:
         return self.collision_box.radius
 
     def move(self, dt):
-        self.collision_box.center += self.movement * dt
+        self.collision_box.center += self.movement * dt * self.speed
 
     def handle_collision(self, other: Agent, counts: dict[Color: int]):
         if self.collision_box.is_colliding(other.collision_box):
@@ -41,5 +49,16 @@ class Agent:
                     counts[self.color] += 1
 
 
+class CreatureAgent(Agent):
+    MAX_RADIUS = 2000
+
+    def handle_collision(self, other: CreatureAgent, counts: dict[Color: int]):
+        if self.collision_box.is_colliding(other.collision_box):
+
+            if self.radius < other.radius:
+                self.state = AgentStates.DEAD
+            else:
+                self.collision_box.radius = min(other.radius + self.radius, CreatureAgent.MAX_RADIUS)
+                self.speed = 10 / self.radius
 
 

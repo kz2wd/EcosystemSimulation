@@ -15,7 +15,8 @@ class Field:
     def height(self):
         return self.size[1]
 
-    def get_random_coordinates(self, padding=0):
-        return Vector2D(random.uniform(padding, self.size[0] - (padding + 1)),
-                        random.uniform(padding, self.size[1] - (padding + 1)))
+    @staticmethod
+    def get_random_coordinates(size, padding=0):
+        return Vector2D(random.uniform(padding, size[0] - (padding + 1)),
+                        random.uniform(padding, size[1] - (padding + 1)))
 

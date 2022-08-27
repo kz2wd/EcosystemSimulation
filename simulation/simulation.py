@@ -2,20 +2,15 @@ import random
 
 import pygame
 
-from simulation.agent import Agent
+from simulation.agent import Agent, AgentStates, CreatureAgent
 from simulation.colors import Color
 from simulation.field import Field
 
 
 class Simulation:
-    def __init__(self, agent_amount: int, field_size: tuple[int, int]):
+    def __init__(self, field_size: tuple[int, int], agents):
+        self.agents = agents
         self.field: Field = Field(field_size)
-        colors = list(Color)
-        default_agent_size = 20
-        self.agents: list[Agent] = [Agent(self.field.get_random_coordinates(default_agent_size),
-                                          random.choice(colors),
-                                          default_agent_size) for _ in range(agent_amount)]
-
         self.agents_counts: dict[Color: int] = {color: len([a for a in self.agents if a.color == color]) for color in Color}
 
     def update(self, dt):
@@ -38,6 +33,10 @@ class Simulation:
                 if a2 != agent:
                     agent.handle_collision(a2, self.agents_counts)
 
-    def draw(self, surface):
+        # Clear dead agents
+        self.agents = list(filter(lambda a: a.state != AgentStates.DEAD, self.agents))
+
+    def draw(self, agent_surface):
         for agent in self.agents:
-            pygame.draw.circle(surface, agent.color.name, (agent.coordinates.x, agent.coordinates.y), agent.radius)
+            pygame.draw.circle(agent_surface, agent.color.name, (agent.coordinates.x, agent.coordinates.y), agent.radius)
+
