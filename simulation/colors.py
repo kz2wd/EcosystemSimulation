@@ -7,8 +7,6 @@ class Color(Enum):
     RED = 1
     GREEN = 2
     BLUE = 3
-    aqua = 4
-    wheat = 5
 
 
 # fixed, if you want more control

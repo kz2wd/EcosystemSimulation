@@ -36,6 +36,8 @@ class Simulation:
         # Clear dead agents
         self.agents = list(filter(lambda a: a.state != AgentStates.DEAD, self.agents))
 
+
+
     def draw(self, agent_surface):
         for agent in self.agents:
             pygame.draw.circle(agent_surface, agent.color.name, (agent.coordinates.x, agent.coordinates.y), agent.radius)

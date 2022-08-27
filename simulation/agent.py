@@ -1,7 +1,11 @@
 from __future__ import annotations
 
 import random
+import threading
 from enum import Enum
+import winsound
+
+import playsound
 
 from simulation.collision_box import CollisionBox
 from simulation.colors import Color, get_winning_color
@@ -40,13 +44,15 @@ class Agent:
             new_direction = (other.coordinates - self.coordinates)
             self.movement = new_direction.normalize * -1
 
+            winsound.PlaySound("C:\\Users\\itrot\\PycharmProjects\\EcosystemSimulation\\mixkit-cartoon-quick-splat-2890.wav", winsound.SND_ASYNC | winsound.SND_ALIAS)
+
             # Update color
             if other.color == get_winning_color(self.color):
                 # prevent from loosing a color
-                if counts[self.color] > 2:
-                    counts[self.color] -= 1
-                    self.color = other.color
-                    counts[self.color] += 1
+                # if counts[self.color] > 2:
+                counts[self.color] -= 1
+                self.color = other.color
+                counts[self.color] += 1
 
 
 class CreatureAgent(Agent):
@@ -60,5 +66,3 @@ class CreatureAgent(Agent):
             else:
                 self.collision_box.radius = min(other.radius + self.radius, CreatureAgent.MAX_RADIUS)
                 self.speed = 10 / self.radius
-
-
