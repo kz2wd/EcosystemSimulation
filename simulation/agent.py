@@ -44,7 +44,7 @@ class Agent:
             new_direction = (other.coordinates - self.coordinates)
             self.movement = new_direction.normalize * -1
 
-            winsound.PlaySound("C:\\Users\\itrot\\PycharmProjects\\EcosystemSimulation\\mixkit-cartoon-quick-splat-2890.wav", winsound.SND_ASYNC | winsound.SND_ALIAS)
+            # winsound.PlaySound("C:\\Users\\itrot\\PycharmProjects\\EcosystemSimulation\\mixkit-cartoon-quick-splat-2890.wav", winsound.SND_ASYNC | winsound.SND_ALIAS)
 
             # Update color
             if other.color == get_winning_color(self.color):

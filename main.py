@@ -50,8 +50,8 @@ if __name__ == "__main__":
 
     window_size = (width, height) = (1000, 1000)
     framerate = 144
-    balls_speed = 1.5
-    balls_amount = 20
+    balls_speed = 2
+    balls_amount = 50
     balls_size = 20
     screen = pygame.display.set_mode(window_size)
     agent_layer = pygame.surface.Surface(window_size)
